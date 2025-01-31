@@ -42,7 +42,11 @@ public sealed class MetaDataCollector
                     return false;
 
                 memberInfo.GetValue = field.GetValue;
-                memberInfo.SetValue = field.SetValue;
+
+                if (!field.IsInitOnly)
+                    memberInfo.SetValue = field.SetValue;
+                else
+                    memberInfo.IsReadOnly = true;
                 return true;
 
             case PropertyInfo property:
