@@ -11,7 +11,7 @@ public class InspectorTest
         TestTickProvider testTickProvider = new();
         PollRequiredModel model = new();
 
-        Inspector inspector = Inspector.Attach(model, testTickProvider);
+        using Inspector inspector = Inspector.Attach(model, testTickProvider);
         Assert.Single(inspector.Elements);
 
         using ElementSpy spy = new(inspector.Elements[0]);
@@ -36,7 +36,7 @@ public class InspectorTest
         TestTickProvider testTickProvider = new();
         NotifyModel model = new();
 
-        Inspector inspector = Inspector.Attach(model, testTickProvider);
+        using Inspector inspector = Inspector.Attach(model, testTickProvider);
         Assert.Single(inspector.Elements);
 
         using ElementSpy spy = new(inspector.Elements[0]);
@@ -56,7 +56,7 @@ public class InspectorTest
         TestTickProvider testTickProvider = new();
         NotifyModel model = new();
 
-        Inspector inspector = Inspector.Attach(model, testTickProvider);
+        using Inspector inspector = Inspector.Attach(model, testTickProvider);
         Assert.Single(inspector.Elements);
 
         Assert.Equal(0, model.Value);
