@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace LgkProductions.Inspector;
+namespace LgkProductions.Inspector.MetaData;
 
 public sealed class MetaDataCollector
 {
@@ -70,7 +70,7 @@ public sealed class MetaDataCollector
 
         static bool TryCollect(MemberInfo member, Type typeOfValue, bool shouldInclude, CollectorOptions options, [MaybeNullWhen(false)] out InspectorMember memberInfo)
         {
-            memberInfo = new(member.Name, typeOfValue);
+            memberInfo = new(member.Name, typeOfValue, member.DeclaringType);
 
             foreach (var attribute in member.GetCustomAttributes())
             {

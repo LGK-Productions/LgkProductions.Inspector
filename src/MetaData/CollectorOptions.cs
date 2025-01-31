@@ -1,4 +1,4 @@
-﻿namespace LgkProductions.Inspector;
+﻿namespace LgkProductions.Inspector.MetaData;
 
 public sealed record CollectorOptions
 {

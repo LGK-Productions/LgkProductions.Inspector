@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace LgkProductions.Inspector;
+namespace LgkProductions.Inspector.MetaData;
 
 public sealed partial class MetaDataCollection : IEnumerable<InspectorMember>
 {

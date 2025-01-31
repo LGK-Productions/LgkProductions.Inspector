@@ -1,4 +1,6 @@
-﻿namespace LgkProductions.Inspector.Attributes;
+﻿using LgkProductions.Inspector.MetaData;
+
+namespace LgkProductions.Inspector.Attributes;
 
 public abstract class InspectorAttribute : Attribute
 {

@@ -2,18 +2,22 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace LgkProductions.Inspector;
+namespace LgkProductions.Inspector.MetaData;
 
 [DebuggerDisplay("{DisplayName}")]
-public sealed partial class InspectorMember(string name, Type type)
+public sealed partial class InspectorMember(string name, Type typeOfValue, Type declaringType)
 {
     /// <summary>
     /// See <see cref="FieldInfo.FieldType"/> or <see cref="PropertyInfo.PropertyType"/>
     /// </summary>
-    public Type Type { get; } = type;
+    public Type Type { get; } = typeOfValue;
+
+    /// <summary>
+    /// See <see cref="MemberInfo.DeclaringType"/>
+    /// </summary>
+    public Type DeclaringType { get; } = declaringType;
 
     /// <summary>
     /// See <see cref="MemberInfo.Name"/>
@@ -77,6 +81,9 @@ public sealed partial class InspectorMember(string name, Type type)
     /// See <see cref="RequiredAttribute"/>
     /// </summary>
     public bool IsRequired { get; set; }
+
+    public bool IsDeclaredIn(object instance)
+        => DeclaringType.IsAssignableFrom(instance.GetType());
 }
 
 public delegate object? GetValueDelegate(object obj);

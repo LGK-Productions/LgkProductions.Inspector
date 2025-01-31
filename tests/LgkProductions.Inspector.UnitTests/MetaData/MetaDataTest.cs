@@ -1,4 +1,6 @@
-﻿namespace LgkProductions.Inspector.UnitTests;
+﻿using LgkProductions.Inspector.MetaData;
+
+namespace LgkProductions.Inspector.UnitTests.MetaData;
 
 public class MetaDataTest
 {

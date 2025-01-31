@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using LgkProductions.Inspector.MetaData;
+using System.Runtime.CompilerServices;
 
 namespace LgkProductions.Inspector.Attributes;
 
