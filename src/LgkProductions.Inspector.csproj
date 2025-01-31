@@ -11,4 +11,25 @@
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 	</ItemGroup>
 
+	<PropertyGroup Label="Nuget">
+		<Version>0.1.0-alpha</Version>
+		<PackageDescription>Abstract backend for object inspection</PackageDescription>
+		<Company>LgkProductions</Company>
+		<RepositoryUrl>https://github.com/LGK-Productions/LgkProductions.Inspector</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup Label="Nuget">
+		<Content Include="../README.md">
+			<PackagePath>/</PackagePath>
+			<Pack>true</Pack>
+		</Content>
+		<Content Include="../LICENSE.txt">
+			<PackagePath>/</PackagePath>
+			<Pack>true</Pack>
+		</Content>
+	</ItemGroup>
+
 </Project>
