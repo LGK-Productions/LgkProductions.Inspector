@@ -14,7 +14,7 @@ internal class TestModel
     [Description("Description2")]
     public int TestDescription { get; set; }
 
-    [Editable(allowEdit: true)]
+    [Editable(allowEdit: false)]
     [ReadOnly(isReadOnly: true)]
     public int TestReadOnly { get; set; }
 

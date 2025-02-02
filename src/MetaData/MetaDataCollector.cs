@@ -117,7 +117,7 @@ public sealed class MetaDataCollector
                 break;
 
             case EditableAttribute editable:
-                memberInfo.IsReadOnly = editable.AllowEdit;
+                memberInfo.IsReadOnly = !editable.AllowEdit;
                 break;
 
             case MaxLengthAttribute maxLength:
