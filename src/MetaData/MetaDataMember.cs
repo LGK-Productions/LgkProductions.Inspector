@@ -96,6 +96,16 @@ public sealed partial class MetaDataMember(MemberInfo memberInfo, Type typeOfVal
     public bool IsRequired { get; set; }
 
     /// <summary>
+    /// See <see cref="SpaceAttribute"/>
+    /// </summary>
+    public Thickness Spacing { get; set; }
+
+    /// <summary>
+    /// See <see cref="LineAttribute"/>
+    /// </summary>
+    public bool HasLineAbove { get; set; }
+
+    /// <summary>
     /// Wether this member is declared in <paramref name="instance"/>.
     /// </summary>
     /// <param name="instance">The instance to check</param>
