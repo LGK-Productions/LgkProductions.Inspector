@@ -1,12 +1,44 @@
 ﻿using LgkProductions.Inspector.MetaData;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace LgkProductions.Inspector;
 
 public sealed class Inspector : IDisposable
 {
-    public required IReadOnlyList<InspectorElement> Elements { get; init; }
+    /// <summary>
+    /// The instance being inspected.
+    /// <seealso cref="Attach"/>
+    /// </summary>
+    public object Instance { get; }
 
+    /// <summary>
+    /// The elements that make up the inspector.
+    /// </summary>
+    public IReadOnlyList<InspectorElement> Elements { get; }
+
+    private Inspector(object instance, IReadOnlyList<InspectorElement> elements)
+    {
+        Instance = instance;
+        Elements = elements;
+    }
+
+    /// <inheritdoc cref="Validator.TryValidateObject(object, ValidationContext, ICollection{ValidationResult}?, bool)"/>
+    public bool TryValidate(ICollection<ValidationResult>? validationResults = null, bool validateAllProperties = true)
+        => Validator.TryValidateObject(Instance, new ValidationContext(Instance), validationResults, validateAllProperties);
+
+    /// <inheritdoc cref="Validator.TryValidateObject(object, ValidationContext, ICollection{ValidationResult}?, bool)"/>
+    public bool TryValidate(out ICollection<ValidationResult> validationResults, bool validateAllProperties = true)
+    {
+        validationResults = [];
+        return Validator.TryValidateObject(Instance, new ValidationContext(Instance), validationResults, validateAllProperties);
+    }
+
+    /// <summary>
+    /// Detaches the inspector.
+    /// <seealso cref="InspectorElement.Dispose"/>
+    /// </summary>
+    /// <exception cref="AggregateException">Aggregated exceptions of inspector elements</exception>
     public void Dispose()
     {
         List<Exception>? exceptions = null;
@@ -27,6 +59,12 @@ public sealed class Inspector : IDisposable
             throw new AggregateException(exceptions);
     }
 
+    /// <summary>
+    /// Attaches an <see cref="Inspector"/> to an <see langword="object"/> instance.
+    /// </summary>
+    /// <param name="instance">The instance to be expected</param>
+    /// <param name="tickProvider"></param>
+    /// <returns>Inspector attached to the provided instance</returns>
     public static Inspector Attach(object instance, ITickProvider tickProvider)
     {
         var type = instance.GetType();
@@ -50,9 +88,6 @@ public sealed class Inspector : IDisposable
                 elements.Add(InspectorElement.AttachPoll(instance, member, tickProvider));
             }
         }
-        return new()
-        {
-            Elements = elements
-        };
+        return new(instance, elements);
     }
 }

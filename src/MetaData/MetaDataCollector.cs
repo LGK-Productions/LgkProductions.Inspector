@@ -70,7 +70,7 @@ public sealed class MetaDataCollector
 
         static bool TryCollect(MemberInfo member, Type typeOfValue, bool shouldInclude, CollectorOptions options, [MaybeNullWhen(false)] out InspectorMember memberInfo)
         {
-            memberInfo = new(member.Name, typeOfValue, member.DeclaringType);
+            memberInfo = new(member.Name, typeOfValue, member);
 
             foreach (var attribute in member.GetCustomAttributes())
             {

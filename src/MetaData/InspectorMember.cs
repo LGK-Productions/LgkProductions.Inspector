@@ -7,17 +7,17 @@ using System.Reflection;
 namespace LgkProductions.Inspector.MetaData;
 
 [DebuggerDisplay("{DisplayName}")]
-public sealed partial class InspectorMember(string name, Type typeOfValue, Type declaringType)
+public sealed partial class InspectorMember(string name, Type typeOfValue, MemberInfo memberInfo)
 {
     /// <summary>
-    /// See <see cref="FieldInfo.FieldType"/> or <see cref="PropertyInfo.PropertyType"/>
+    /// Type of the value of this member.
     /// </summary>
+    /// <seealso cref="PropertyInfo.PropertyType"/>
+    /// <seealso cref="PropertyInfo.PropertyType"/>
     public Type Type { get; } = typeOfValue;
 
-    /// <summary>
-    /// See <see cref="MemberInfo.DeclaringType"/>
-    /// </summary>
-    public Type DeclaringType { get; } = declaringType;
+    /// <inheritdoc cref="MemberInfo.DeclaringType"/>
+    public Type DeclaringType { get; } = memberInfo.DeclaringType;
 
     /// <summary>
     /// See <see cref="MemberInfo.Name"/>
@@ -84,6 +84,17 @@ public sealed partial class InspectorMember(string name, Type typeOfValue, Type 
 
     public bool IsDeclaredIn(object instance)
         => DeclaringType.IsAssignableFrom(instance.GetType());
+
+    /// <inheritdoc cref="Validator.TryValidateValue(object, ValidationContext, ICollection{ValidationResult}?, IEnumerable{ValidationAttribute})"/>
+    public bool TryValidate(object value, ICollection<ValidationResult>? validationResults = null)
+        => Validator.TryValidateValue(value, new ValidationContext(value), validationResults, memberInfo.GetCustomAttributes<ValidationAttribute>());
+
+    /// <inheritdoc cref="Validator.TryValidateValue(object, ValidationContext, ICollection{ValidationResult}?, IEnumerable{ValidationAttribute})"/>
+    public bool TryValidate(object value, out ICollection<ValidationResult> validationResults)
+    {
+        validationResults = [];
+        return Validator.TryValidateValue(value, new ValidationContext(value), validationResults, memberInfo.GetCustomAttributes<ValidationAttribute>());
+    }
 }
 
 public delegate object? GetValueDelegate(object obj);
