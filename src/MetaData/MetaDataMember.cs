@@ -45,6 +45,11 @@ public sealed partial class MetaDataMember(MemberInfo memberInfo, Type typeOfVal
     public string? GroupName { get; set; }
 
     /// <summary>
+    /// See <see cref="TabGroupAttribute"/>
+    /// </summary>
+    public string? TabName { get; set; }
+
+    /// <summary>
     /// See <see cref="DefaultValueAttribute"/>
     /// </summary>
     public object? DefaultValue { get; set; }
