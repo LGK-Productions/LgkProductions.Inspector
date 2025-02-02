@@ -4,5 +4,5 @@ namespace LgkProductions.Inspector.Attributes;
 
 public abstract class InspectorAttribute : Attribute
 {
-    public abstract void Apply(InspectorMember memberInfo, ref bool shouldInclude);
+    public abstract void Apply(MetaDataMember memberInfo, ref bool shouldInclude);
 }

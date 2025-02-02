@@ -16,10 +16,10 @@ public sealed class InspectorElement : IDisposable
     /// <summary>
     /// Static metadata of the inspected member.
     /// </summary>
-    public InspectorMember MemberInfo { get; }
+    public MetaDataMember MemberInfo { get; }
 
     readonly ITickProvider? _tickProvider;
-    private InspectorElement(object instance, InspectorMember member, ITickProvider? tickProvider)
+    private InspectorElement(object instance, MetaDataMember member, ITickProvider? tickProvider)
     {
         Instance = instance;
         MemberInfo = member;
@@ -56,7 +56,7 @@ public sealed class InspectorElement : IDisposable
     /// <param name="member">Static metadata of the meber to inspect</param>
     /// <returns>The attached inspector element</returns>
     /// <exception cref="ArgumentException"><paramref name="member"/> is not declared in <paramref name="instance"/></exception>
-    public static InspectorElement AttachNotify<TInstance>(TInstance instance, InspectorMember member) where TInstance : INotifyPropertyChanged
+    public static InspectorElement AttachNotify<TInstance>(TInstance instance, MetaDataMember member) where TInstance : INotifyPropertyChanged
     {
         if (!member.IsDeclaredIn(instance))
             throw new ArgumentException("The instance does not declare the member.", nameof(instance));
@@ -82,7 +82,7 @@ public sealed class InspectorElement : IDisposable
     /// <param name="tickProvider">Tick provider used for polling</param>
     /// <returns>The attached inspector element</returns>
     /// <exception cref="ArgumentException"><paramref name="member"/> is not declared in <paramref name="instance"/></exception>
-    public static InspectorElement AttachPoll(object instance, InspectorMember member, ITickProvider tickProvider)
+    public static InspectorElement AttachPoll(object instance, MetaDataMember member, ITickProvider tickProvider)
     {
         if (!member.IsDeclaredIn(instance))
             throw new ArgumentException("The instance does not declare the member.", nameof(instance));
@@ -121,4 +121,4 @@ public sealed class InspectorElement : IDisposable
 /// <param name="instance">The instance that contains <paramref name="member"/></param>
 /// <param name="member">Static metadata of the changed member</param>
 /// <param name="newValue">The new valud of the member</param>
-public delegate void ValueChangedEventHandler(object instance, InspectorMember member, object? newValue);
+public delegate void ValueChangedEventHandler(object instance, MetaDataMember member, object? newValue);

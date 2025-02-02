@@ -34,7 +34,7 @@ public sealed class MetaDataCollector
         if (type.IsPrimitive)
             throw new ArgumentException("Primitive types are not supported.");
 
-        List<InspectorMember> members = [];
+        List<MetaDataMember> members = [];
         foreach (var member in type.GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
         {
             if (!TryCollectMember(member, options, out var memberInfo))
@@ -48,7 +48,7 @@ public sealed class MetaDataCollector
         return new(members);
     }
 
-    static bool TryCollectMember(MemberInfo member, CollectorOptions options, [MaybeNullWhen(false)] out InspectorMember memberInfo)
+    static bool TryCollectMember(MemberInfo member, CollectorOptions options, [MaybeNullWhen(false)] out MetaDataMember memberInfo)
     {
         memberInfo = null;
 
@@ -85,9 +85,9 @@ public sealed class MetaDataCollector
                 return false;
         }
 
-        static bool TryCollect(MemberInfo member, Type typeOfValue, bool shouldInclude, CollectorOptions options, [MaybeNullWhen(false)] out InspectorMember memberInfo)
+        static bool TryCollect(MemberInfo member, Type typeOfValue, bool shouldInclude, CollectorOptions options, [MaybeNullWhen(false)] out MetaDataMember memberInfo)
         {
-            memberInfo = new(member.Name, typeOfValue, member);
+            memberInfo = new(member, typeOfValue);
 
             foreach (var attribute in member.GetCustomAttributes())
             {
@@ -98,7 +98,7 @@ public sealed class MetaDataCollector
         }
     }
 
-    static void ApplyAttribute(object attribute, InspectorMember memberInfo, ref bool shouldInclude)
+    static void ApplyAttribute(object attribute, MetaDataMember memberInfo, ref bool shouldInclude)
     {
         switch (attribute)
         {

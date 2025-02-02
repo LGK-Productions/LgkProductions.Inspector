@@ -13,7 +13,7 @@ internal sealed class ElementSpy : IDisposable
     }
 
     public List<object?> Values { get; } = [];
-    private void OnValueChanged(object instance, InspectorMember member, object? newValue)
+    private void OnValueChanged(object instance, MetaDataMember member, object? newValue)
     {
         Assert.Same(_element.Instance, instance);
         Assert.Same(_element.MemberInfo, member);

@@ -6,8 +6,13 @@ using System.Reflection;
 
 namespace LgkProductions.Inspector.MetaData;
 
+/// <summary>
+/// Static metadata of a member in a type.
+/// </summary>
+/// <param name="memberInfo">Reflection metadata</param>
+/// <param name="typeOfValue">Type of the value of this member</param>
 [DebuggerDisplay("{DisplayName}")]
-public sealed partial class InspectorMember(string name, Type typeOfValue, MemberInfo memberInfo)
+public sealed partial class MetaDataMember(MemberInfo memberInfo, Type typeOfValue)
 {
     /// <summary>
     /// Type of the value of this member.
@@ -22,12 +27,12 @@ public sealed partial class InspectorMember(string name, Type typeOfValue, Membe
     /// <summary>
     /// See <see cref="MemberInfo.Name"/>
     /// </summary>
-    public string Name { get; } = name;
+    public string Name { get; } = memberInfo.Name;
 
     /// <summary>
     /// See <see cref="DisplayNameAttribute"/> and <see cref="DisplayAttribute.Name"/>
     /// </summary>
-    public string DisplayName { get; set; } = name;
+    public string DisplayName { get; set; } = memberInfo.Name;
 
     /// <summary>
     /// See <see cref="DescriptionAttribute"/> and <see cref="DisplayAttribute.Description"/>
