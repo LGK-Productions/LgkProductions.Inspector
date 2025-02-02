@@ -70,6 +70,10 @@ public sealed class MetaDataCollector
                 if (!property.CanRead)
                     return false;
 
+                // Ignore indexers (like List.Item[int])
+                if (property.GetIndexParameters().Length > 0)
+                    return false;
+
                 if (!TryCollect(member, property.PropertyType, property.GetAccessors().Any(x => x.IsPublic), options, out memberInfo))
                     return false;
 
