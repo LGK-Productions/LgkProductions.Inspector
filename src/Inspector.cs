@@ -41,9 +41,6 @@ public sealed class Inspector : IDisposable
         List<InspectorElement> elements = [];
         foreach (var member in metaData)
         {
-            if (member.IsReadOnly)
-                continue;
-
             if (notify is not null)
             {
                 elements.Add(InspectorElement.AttachNotify(notify, member));
