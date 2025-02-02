@@ -49,8 +49,11 @@ public sealed partial class InspectorMember(string name, Type typeOfValue, Membe
     /// </summary>
     public bool IsReadOnly { get; set; }
 
-    public GetValueDelegate GetValue { get; set; } = (obj) => throw new NotImplementedException();
-    public SetValueDelegate SetValue { get; set; } = (obj, value) => throw new NotImplementedException();
+    /// <inheritdoc cref="PropertyInfo.GetValue(object)"/>
+    public GetValueDelegate GetValue { get; set; } = static (obj) => throw new NotImplementedException("This member is write-only");
+
+    /// <inheritdoc cref="PropertyInfo.SetValue(object, object)"/>
+    public SetValueDelegate SetValue { get; set; } = static (obj, value) => throw new NotImplementedException("This member is read-only");
 
     /// <summary>
     /// See <see cref="PropertyOrderAttribute"/> and <see cref="DisplayAttribute.Order"/>
@@ -82,6 +85,11 @@ public sealed partial class InspectorMember(string name, Type typeOfValue, Membe
     /// </summary>
     public bool IsRequired { get; set; }
 
+    /// <summary>
+    /// Wether this member is declared in <paramref name="instance"/>.
+    /// </summary>
+    /// <param name="instance">The instance to check</param>
+    /// <returns>Wether the type of instance declares this member</returns>
     public bool IsDeclaredIn(object instance)
         => DeclaringType.IsAssignableFrom(instance.GetType());
 

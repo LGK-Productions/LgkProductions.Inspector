@@ -3,9 +3,19 @@ using System.ComponentModel;
 
 namespace LgkProductions.Inspector;
 
+/// <summary>
+/// Represents a member of an instance 
+/// </summary>
 public sealed class InspectorElement : IDisposable
 {
+    /// <summary>
+    /// The instance that contains this inspected member.
+    /// </summary>
     public object Instance { get; }
+
+    /// <summary>
+    /// Static metadata of the inspected member.
+    /// </summary>
     public InspectorMember MemberInfo { get; }
 
     readonly ITickProvider? _tickProvider;
@@ -23,15 +33,29 @@ public sealed class InspectorElement : IDisposable
             tickProvider.Tick += OnTick;
     }
 
+    /// <summary>
+    /// Gets or sets the valud of the inspected <see cref="MemberInfo"/> in <see cref="Instance"/>.
+    /// </summary>
     public object? Value
     {
         get => MemberInfo.GetValue(Instance);
         set => MemberInfo.SetValue(Instance, value);
     }
 
+    /// <summary>
+    /// Occurs when the value of the inspected <see cref="MemberInfo"/> in <see cref="Instance"/> changes.
+    /// </summary>
     public event ValueChangedEventHandler? ValueChanged;
 
     #region Notify
+    /// <summary>
+    /// Attaches a listener to the <see cref="INotifyPropertyChanged.PropertyChanged"/> event of <paramref name="instance"/> to observe the specified <paramref name="member"/>.
+    /// </summary>
+    /// <typeparam name="TInstance">Type of instance</typeparam>
+    /// <param name="instance">The instance containing <paramref name="member"/></param>
+    /// <param name="member">Static metadata of the meber to inspect</param>
+    /// <returns>The attached inspector element</returns>
+    /// <exception cref="ArgumentException"><paramref name="member"/> is not declared in <paramref name="instance"/></exception>
     public static InspectorElement AttachNotify<TInstance>(TInstance instance, InspectorMember member) where TInstance : INotifyPropertyChanged
     {
         if (!member.IsDeclaredIn(instance))
@@ -50,6 +74,14 @@ public sealed class InspectorElement : IDisposable
     #endregion Notify
 
     #region Polling
+    /// <summary>
+    /// Attaches a polling system to specified <paramref name="member"/> of <paramref name="instance"/>.
+    /// </summary>
+    /// <param name="instance">The instance containing <paramref name="member"/></param>
+    /// <param name="member">Static metadata of the meber to inspect</param>
+    /// <param name="tickProvider">Tick provider used for polling</param>
+    /// <returns>The attached inspector element</returns>
+    /// <exception cref="ArgumentException"><paramref name="member"/> is not declared in <paramref name="instance"/></exception>
     public static InspectorElement AttachPoll(object instance, InspectorMember member, ITickProvider tickProvider)
     {
         if (!member.IsDeclaredIn(instance))
@@ -70,6 +102,9 @@ public sealed class InspectorElement : IDisposable
     }
     #endregion Polling
 
+    /// <summary>
+    /// Detaches this element from the instance.
+    /// </summary>
     public void Dispose()
     {
         if (Instance is INotifyPropertyChanged notify)
@@ -80,4 +115,10 @@ public sealed class InspectorElement : IDisposable
     }
 }
 
+/// <summary>
+/// Handles changes of a single member.
+/// </summary>
+/// <param name="instance">The instance that contains <paramref name="member"/></param>
+/// <param name="member">Static metadata of the changed member</param>
+/// <param name="newValue">The new valud of the member</param>
 public delegate void ValueChangedEventHandler(object instance, InspectorMember member, object? newValue);

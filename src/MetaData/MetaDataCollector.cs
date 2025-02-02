@@ -7,11 +7,28 @@ using System.Reflection;
 
 namespace LgkProductions.Inspector.MetaData;
 
+/// <summary>
+/// Collects static metadata about a type.
+/// </summary>
 public sealed class MetaDataCollector
 {
+    /// <summary>
+    /// Collects metadata for the specified type.
+    /// </summary>
+    /// <typeparam name="T">The type to collect metadata for</typeparam>
+    /// <param name="options">Control the metadata collection</param>
+    /// <returns>The collected metadata</returns>
+    /// <exception cref="ArgumentException">Primitive types are not supported</exception>
     public static MetaDataCollection Collect<T>(CollectorOptions options)
         => Collect(typeof(T), options);
 
+    /// <summary>
+    /// Collects metadata for the specified type.
+    /// </summary>
+    /// <param name="type">The type to collect metadata for</param>
+    /// <param name="options">Control the metadata collection</param>
+    /// <returns>The collected metadata</returns>
+    /// <exception cref="ArgumentException">Primitive types are not supported</exception>
     public static MetaDataCollection Collect(Type type, CollectorOptions options)
     {
         if (type.IsPrimitive)
