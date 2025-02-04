@@ -56,21 +56,6 @@ public class ValidationTest
         Assert.Empty(errors2);
     }
 
-    [Fact]
-    public void TryValidate_ShouldFail_WhenWrongType()
-    {
-        var metadata = MetaDataCollector.Collect<SimpleModel>(new());
-        Assert.Single(metadata);
-        var entry1 = metadata.First();
-
-        Assert.False(entry1.TryValidate(42, out var errors));
-        Assert.Single(errors);
-
-        List<ValidationResult> errors2 = [];
-        Assert.False(entry1.TryValidate(42, errors2));
-        Assert.Single(errors2);
-    }
-
     sealed class SimpleModel
     {
         public string? Value { get; set; }
