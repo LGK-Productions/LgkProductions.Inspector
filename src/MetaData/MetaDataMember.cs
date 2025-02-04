@@ -106,6 +106,11 @@ public sealed partial class MetaDataMember(MemberInfo memberInfo, Type typeOfVal
     public bool HasLineAbove { get; set; }
 
     /// <summary>
+    /// May hold metadata not representable by other properties.
+    /// </summary>
+    public Dictionary<string, object> CustomMetaData { get; } = [];
+
+    /// <summary>
     /// Wether this member is declared in <paramref name="instance"/>.
     /// </summary>
     /// <param name="instance">The instance to check</param>
