@@ -1,7 +1,13 @@
+---
+outputFileName: index.html
+---
+
 # LgkProductions.Inspector
+
 Abstract backend for object inspection.
 
 ## Getting Started
+
 > [!TIP]
 > Implement [`INotifyPropertyChanged`](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged) to prevent polling.
 
@@ -9,7 +15,7 @@ Abstract backend for object inspection.
 MyObject instance = new();
 
 // Attach inspector using "tickProvider" used for polling
-var inspector = Inspector.Attach(instance, tickProvider);
+using var inspector = Inspector.Attach(instance, tickProvider);
 
 // Get notified on change
 inspector.Elements[i].ValueChanged
@@ -20,4 +26,5 @@ inspector.Elements[i].Value = 42;
 ```
 
 ## License
+
 This project is licensed under the [MIT License](LICENSE.txt).

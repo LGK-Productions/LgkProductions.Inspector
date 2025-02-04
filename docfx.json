@@ -1,0 +1,33 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": ["src/*.csproj"]
+        }
+      ],
+      "output": "api-docs/"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": "**/*.{md,yml}",
+        "exclude": "_site/**/*"
+      }
+    ],
+    "resource": [
+      {
+        "files": ["LICENSE.txt"]
+      }
+    ],
+    "postProcessors": ["ExtractSearchIndex"],
+    "globalMetadata": {
+      "_appName": "Lgk Inspector"
+    },
+    "output": "_site",
+    "template": ["default", "modern"],
+    "xref": ["https://learn.microsoft.com/en-us/dotnet/.xrefmap.json"]
+  }
+}
