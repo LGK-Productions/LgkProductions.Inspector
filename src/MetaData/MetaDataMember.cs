@@ -56,7 +56,7 @@ public sealed partial class MetaDataMember(MemberInfo memberInfo, Type typeOfVal
     }
 
     /// <summary>
-    /// See <see cref="TabGroupAttribute"/>
+    /// See <see cref="TabAttribute"/>
     /// </summary>
     public string? TabName { get; set; }
 
