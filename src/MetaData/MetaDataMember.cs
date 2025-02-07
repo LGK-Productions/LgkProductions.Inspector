@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace LgkProductions.Inspector.MetaData;
@@ -116,10 +117,43 @@ public sealed partial class MetaDataMember(MemberInfo memberInfo, Type typeOfVal
     /// </summary>
     public bool HasLineAbove { get; set; }
 
+    readonly Dictionary<string, object> _customMetaData = [];
+
     /// <summary>
     /// May hold metadata not representable by other properties.
     /// </summary>
-    public Dictionary<string, object> CustomMetaData { get; } = [];
+    [Obsolete("Use SetMetaData and TryGetMetaData instead")]
+    public Dictionary<string, object> CustomMetaData => _customMetaData;
+
+    /// <summary>
+    /// Sets metadata of type <typeparamref name="T"/> with the given <paramref name="key"/>.
+    /// </summary>
+    /// <typeparam name="T">Type of the custom metadata</typeparam>
+    /// <param name="key">Key of the metadata</param>
+    /// <param name="value">Value of the metadata</param>
+    public void SetMetaData<T>(MetaDataKey<T> key, T value) where T : notnull
+        => _customMetaData[key.Name] = value;
+
+    /// <summary>
+    /// Gets metadata of type <typeparamref name="T"/> with the given <paramref name="key"/>.
+    /// </summary>
+    /// <typeparam name="T">Type of the custom metadata</typeparam>
+    /// <param name="key">Key of the metadata</param>
+    /// <param name="value">Value of the metadata</param>
+    /// <returns>Wether metadata with the key was found</returns>
+    public bool TryGetMetaData<T>(MetaDataKey<T> key, [MaybeNullWhen(false)] out T value)
+    {
+        value = default;
+
+        if (!_customMetaData.TryGetValue(key.Name, out var rawValue))
+            return false;
+
+        if (rawValue is not T typedValue)
+            return false;
+
+        value = typedValue;
+        return true;
+    }
 
     /// <summary>
     /// Wether this member is declared in <paramref name="instance"/>.
