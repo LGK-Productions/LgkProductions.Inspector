@@ -3,8 +3,8 @@
 /// <summary>
 /// Options for the <see cref="MetaDataCollector"/>.
 /// </summary>
-/// <seealso cref="MetaDataCollector.Collect{T}(LgkProductions.Inspector.MetaData.CollectorOptions)"/>
-/// <seealso cref="MetaDataCollector.Collect(Type, LgkProductions.Inspector.MetaData.CollectorOptions)"/>
+/// <seealso cref="MetaDataCollector.Collect{T}(CollectorOptions)"/>
+/// <seealso cref="MetaDataCollector.Collect(Type, CollectorOptions)"/>
 public sealed record CollectorOptions
 {
     /// <summary>
