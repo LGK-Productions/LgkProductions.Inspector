@@ -40,9 +40,20 @@ public sealed partial class MetaDataMember(MemberInfo memberInfo, Type typeOfVal
     public string? Description { get; set; }
 
     /// <summary>
-    /// See <see cref="CategoryAttribute"/> and <see cref="DisplayAttribute.GroupName"/>
+    /// See <see cref="CategoryAttribute"/>, <see cref="DisplayAttribute.GroupName"/> and <see cref="BoxGroupAttribute"/>
     /// </summary>
-    public string? GroupName { get; set; }
+    public GroupLayout? Group { get; set; }
+
+    internal void SetGroupName(string? groupName)
+    {
+        if (groupName == null)
+            return;
+
+        if (Group is null)
+            Group = new() { Title = groupName };
+        else
+            Group.Title = groupName;
+    }
 
     /// <summary>
     /// See <see cref="TabGroupAttribute"/>

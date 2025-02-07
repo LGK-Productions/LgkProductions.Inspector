@@ -111,7 +111,7 @@ public sealed class MetaDataCollector
                 break;
 
             case CategoryAttribute category:
-                memberInfo.GroupName = category.Category;
+                memberInfo.SetGroupName(category.Category);
                 break;
 
             case DefaultValueAttribute defaultValue:
@@ -133,7 +133,7 @@ public sealed class MetaDataCollector
             case DisplayAttribute display:
                 memberInfo.DisplayName = display.GetName() ?? memberInfo.Name;
                 memberInfo.Description ??= display.GetDescription();
-                memberInfo.GroupName ??= display.GetGroupName();
+                memberInfo.SetGroupName(display.GetGroupName());
                 memberInfo.Order ??= display.GetOrder();
                 break;
 
