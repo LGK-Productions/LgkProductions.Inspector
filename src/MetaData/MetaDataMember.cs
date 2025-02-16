@@ -15,6 +15,9 @@ namespace LgkProductions.Inspector.MetaData;
 [DebuggerDisplay("{DisplayName}")]
 public sealed partial class MetaDataMember(MemberInfo memberInfo, Type typeOfValue)
 {
+    internal bool Equals(MemberInfo other)
+        => memberInfo == other;
+
     /// <summary>
     /// Type of the value of this member.
     /// </summary>

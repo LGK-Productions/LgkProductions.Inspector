@@ -8,7 +8,6 @@ public sealed class Inspector : IDisposable
 {
     /// <summary>
     /// The instance being inspected.
-    /// <seealso cref="Attach"/>
     /// </summary>
     public object Instance { get; }
 
@@ -62,18 +61,41 @@ public sealed class Inspector : IDisposable
     /// <summary>
     /// Attaches an <see cref="Inspector"/> to an <see langword="object"/> instance.
     /// </summary>
-    /// <param name="instance">The instance to be expected</param>
+    /// <param name="instance">The instance to be inspected</param>
     /// <param name="tickProvider"></param>
     /// <returns>Inspector attached to the provided instance</returns>
     public static Inspector Attach(object instance, ITickProvider tickProvider)
     {
-        var type = instance.GetType();
-
-        var metaData = MetaDataCollector.Collect(type, new()
+        return Attach(instance, tickProvider, new CollectorOptions()
         {
             IncludeFields = true
         });
+    }
 
+    /// <summary>
+    /// Attaches an <see cref="Inspector"/> to an <see langword="object"/> instance.
+    /// </summary>
+    /// <param name="instance">The instance to be inspected</param>
+    /// <param name="tickProvider"></param>
+    /// <param name="options">Options passed to the MetaDataCollector</param>
+    /// <returns>Inspector attached to the provided instance</returns>
+    public static Inspector Attach(object instance, ITickProvider tickProvider, CollectorOptions options)
+    {
+        var type = instance.GetType();
+
+        var metaData = MetaDataCollector.Collect(type, options);
+        return Attach(instance, tickProvider, metaData);
+    }
+
+    /// <summary>
+    /// Attaches an <see cref="Inspector"/> to an <see langword="object"/> instance.
+    /// </summary>
+    /// <param name="instance">The instance to be inspected</param>
+    /// <param name="tickProvider"></param>
+    /// <param name="metaData"></param>
+    /// <returns>Inspector attached to the provided instance</returns>
+    public static Inspector Attach(object instance, ITickProvider tickProvider, MetaDataCollection metaData)
+    {
         INotifyPropertyChanged? notify = instance as INotifyPropertyChanged;
 
         List<InspectorElement> elements = [];
