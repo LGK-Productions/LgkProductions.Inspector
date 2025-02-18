@@ -4,3 +4,4 @@
 
 - name: Advanced
 - href: custom-attributes.md
+- href: post-processor.md

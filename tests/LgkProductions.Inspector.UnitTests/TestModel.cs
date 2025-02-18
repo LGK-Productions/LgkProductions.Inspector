@@ -44,4 +44,8 @@ internal class TestModel
     [Display(GroupName = "Group1")]
     [Category("Group1")]
     public int TestGroup1 { get; set; }
+
+    private string? Abc { get; set; }
+
+    public string? Abc2 { get; set; }
 }

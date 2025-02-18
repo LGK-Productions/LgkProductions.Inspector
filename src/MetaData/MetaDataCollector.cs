@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace LgkProductions.Inspector.MetaData;
@@ -98,6 +99,8 @@ public sealed class MetaDataCollector
                 ApplyAttribute(attribute, memberInfo, ref shouldInclude);
             }
 
+            options.MemberPostProcessor?.Invoke(memberInfo, ref shouldInclude);
+
             return shouldInclude;
         }
     }
@@ -166,6 +169,65 @@ public sealed class MetaDataCollector
             case InspectorAttribute inspectorAttribute:
                 inspectorAttribute.Apply(memberInfo, ref shouldInclude);
                 break;
+        }
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="PostProcessorBuilder{T}"/>
+    /// </summary>
+    /// <typeparam name="T">Type to build the processor for</typeparam>
+    public static PostProcessorBuilder<T> PostProcessor<T>()
+        => new();
+
+    /// <summary>
+    /// Builds a custom postprocessor.
+    /// </summary>
+    /// <typeparam name="T">Type to build the processor for</typeparam>
+    public sealed class PostProcessorBuilder<T>
+    {
+        readonly List<MemberPostProcessor> _processors = [];
+        /// <summary>
+        /// Chains an existing <see cref="MemberPostProcessor"/>.
+        /// </summary>
+        /// <param name="processor">Postprocessor to append</param>
+        public PostProcessorBuilder<T> Chain(MemberPostProcessor processor)
+        {
+            _processors.Add(processor);
+            return this;
+        }
+
+        /// <summary>
+        /// Appends a <see cref="MemberPostProcessor"/> for a member in <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="memberRef">Member to process</param>
+        /// <param name="attributes">Attributes to add to the member</param>
+        public PostProcessorBuilder<T> Member(Expression<Func<T, object?>> memberRef, params IEnumerable<Attribute> attributes)
+        {
+            if (memberRef.Body is not MemberExpression memberExpression)
+                throw new ArgumentException($"MemberRef should be a {nameof(MemberExpression)}", nameof(memberRef));
+
+            _processors.Add((MetaDataMember member, ref bool shouldInclude) =>
+            {
+                if (!member.Equals(memberExpression.Member))
+                    return;
+
+                foreach (var attribute in attributes)
+                    ApplyAttribute(attribute, member, ref shouldInclude);
+            });
+            return this;
+        }
+
+        /// <summary>
+        /// Builds the final <see cref="MemberPostProcessor"/>.
+        /// </summary>
+        /// <returns>The final post processor</returns>
+        public MemberPostProcessor Build()
+        {
+            return (MetaDataMember member, ref bool shouldInclude) =>
+            {
+                foreach (var processor in _processors)
+                    processor(member, ref shouldInclude);
+            };
         }
     }
 }
