@@ -60,6 +60,16 @@ public sealed partial class MetaDataMember(MemberInfo memberInfo, Type typeOfVal
     }
 
     /// <summary>
+    /// Define how the layout behaves.
+    /// </summary>
+    public LayoutFlags LayoutFlags { get; set; } = LayoutFlags.Default;
+
+    /// <summary>
+    /// See <see cref="InlineInspectorAttribute"/>
+    /// </summary>
+    public bool UseInlineInspector { get; set; }
+
+    /// <summary>
     /// See <see cref="TabAttribute"/>
     /// </summary>
     public string? TabName { get; set; }
