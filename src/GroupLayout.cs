@@ -16,12 +16,7 @@ public sealed record GroupLayout
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
     /// <summary>
-    /// Whether the group should be foldable.
+    /// Defines how the layout behaves.
     /// </summary>
-    public bool IsFoldable { get; set; }
-
-    /// <summary>
-    /// Whether the group should have a frame (including title etc).
-    /// </summary>
-    public bool HasFrame { get; set; } = true;
+    public LayoutFlags LayoutFlags { get; set; } = LayoutFlags.Default;
 }

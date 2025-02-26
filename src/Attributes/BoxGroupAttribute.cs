@@ -20,21 +20,15 @@ public sealed class BoxGroupAttribute(string groupName) : InspectorAttribute
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
     /// <summary>
-    /// Whether the group should be foldable.
+    /// Defines how the layout behaves.
     /// </summary>
-    public bool IsFoldable { get; set; }
-
-    /// <summary>
-    /// Whether the group should have a frame (including title etc).
-    /// </summary>
-    public bool HasFrame { get; set; } = true;
+    public LayoutFlags LayoutFlags { get; set; } = LayoutFlags.Default;
 
     public override void Apply(MetaDataMember memberInfo, ref bool shouldInclude)
         => memberInfo.Group = new()
         {
             Title = GroupName,
             Orientation = Orientation,
-            IsFoldable = IsFoldable,
-            HasFrame = HasFrame
+            LayoutFlags = LayoutFlags
         };
 }
