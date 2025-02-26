@@ -19,10 +19,16 @@ public sealed class BoxGroupAttribute(string groupName) : InspectorAttribute
     /// </summary>
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
+    /// <summary>
+    /// Defines how the layout behaves.
+    /// </summary>
+    public LayoutFlags LayoutFlags { get; set; } = LayoutFlags.Default;
+
     public override void Apply(MetaDataMember memberInfo, ref bool shouldInclude)
         => memberInfo.Group = new()
         {
             Title = GroupName,
-            Orientation = Orientation
+            Orientation = Orientation,
+            LayoutFlags = LayoutFlags
         };
 }

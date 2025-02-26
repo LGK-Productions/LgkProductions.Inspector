@@ -14,4 +14,9 @@ public sealed record GroupLayout
     /// The orientation of the group.
     /// </summary>
     public Orientation Orientation { get; set; } = Orientation.Vertical;
+
+    /// <summary>
+    /// Defines how the layout behaves.
+    /// </summary>
+    public LayoutFlags LayoutFlags { get; set; } = LayoutFlags.Default;
 }
