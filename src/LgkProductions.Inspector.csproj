@@ -12,7 +12,7 @@
 	</ItemGroup>
 
 	<PropertyGroup Label="Nuget">
-		<Version>0.3.0-alpha</Version>
+		<Version>0.4.1-alpha</Version>
 		<PackageDescription>Abstract backend for object inspection</PackageDescription>
 		<Company>LgkProductions</Company>
 		<RepositoryUrl>https://github.com/LGK-Productions/LgkProductions.Inspector</RepositoryUrl>

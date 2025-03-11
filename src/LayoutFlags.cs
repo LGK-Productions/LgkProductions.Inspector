@@ -11,14 +11,14 @@ public enum LayoutFlags
     /// </summary>
     Default = 0,
     /// <summary>
-    /// Make the layout foldable.
+    /// Disable fold button in the layout
     /// </summary>
-    Foldable = 0b1,
+    NotFoldable = 0b10 | ExpandedInitially,
     /// <summary>
     /// Expand the group  initially.
     /// </summary>
     /// <seealso cref="Foldable"/>
-    ExpandedInitially = 0b10 | Foldable,
+    ExpandedInitially = 0b1,
     /// <summary>
     /// Hide the label of the layout.
     /// </summary>
@@ -26,7 +26,7 @@ public enum LayoutFlags
     /// <summary>
     /// Disable the layout frame (e.g. buttons).
     /// </summary>
-    NoFrame = 0b1000,
+    NoElements = 0b1000,
     /// <summary>
     /// Disable the layout background.
     /// </summary>

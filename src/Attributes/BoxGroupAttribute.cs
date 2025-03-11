@@ -22,7 +22,7 @@ public sealed class BoxGroupAttribute(string groupName) : InspectorAttribute
     /// <summary>
     /// Defines how the layout behaves.
     /// </summary>
-    public LayoutFlags LayoutFlags { get; set; } = LayoutFlags.Default;
+    public LayoutFlags LayoutFlags { get; set; } = LayoutFlags.NotFoldable;
 
     public override void Apply(MetaDataMember memberInfo, ref bool shouldInclude)
         => memberInfo.Group = new()

@@ -14,8 +14,8 @@ public class LayoutFlagsAttributeTest
     [Fact]
     public void LayoutFlags_ExpandedInitially_ContainsFoldable()
     {
-        Assert.Equal(LayoutFlags.Foldable | LayoutFlags.ExpandedInitially, LayoutFlags.ExpandedInitially);
-        Assert.True(LayoutFlags.ExpandedInitially.HasFlag(LayoutFlags.Foldable));
+        Assert.Equal(LayoutFlags.NotFoldable | LayoutFlags.ExpandedInitially, LayoutFlags.NotFoldable);
+        Assert.True(LayoutFlags.NotFoldable.HasFlag(LayoutFlags.ExpandedInitially));
     }
 
     [Fact]
@@ -26,14 +26,14 @@ public class LayoutFlagsAttributeTest
         Assert.Contains(metaData, x => x.Name == nameof(TestModel.Default1) && x.LayoutFlags == LayoutFlags.Default);
         Assert.Contains(metaData, x => x.Name == nameof(TestModel.Default2) && x.LayoutFlags == LayoutFlags.Default);
 
-        Assert.Contains(metaData, x => x.Name == nameof(TestModel.Foldable) && x.LayoutFlags == LayoutFlags.Foldable);
+        Assert.Contains(metaData, x => x.Name == nameof(TestModel.NotFoldable) && x.LayoutFlags == (LayoutFlags.NotFoldable | LayoutFlags.ExpandedInitially));
 
-        Assert.Contains(metaData, x => x.Name == nameof(TestModel.InitiallyExpanded1) && x.LayoutFlags == (LayoutFlags.Foldable | LayoutFlags.ExpandedInitially));
-        Assert.Contains(metaData, x => x.Name == nameof(TestModel.InitiallyExpanded2) && x.LayoutFlags == (LayoutFlags.Foldable | LayoutFlags.ExpandedInitially));
-        Assert.Contains(metaData, x => x.Name == nameof(TestModel.InitiallyExpanded3) && x.LayoutFlags == (LayoutFlags.Foldable | LayoutFlags.ExpandedInitially));
+        Assert.Contains(metaData, x => x.Name == nameof(TestModel.InitiallyExpanded1) && x.LayoutFlags == (LayoutFlags.NotFoldable | LayoutFlags.ExpandedInitially));
+        Assert.Contains(metaData, x => x.Name == nameof(TestModel.InitiallyExpanded2) && x.LayoutFlags == (LayoutFlags.NotFoldable | LayoutFlags.ExpandedInitially));
+        Assert.Contains(metaData, x => x.Name == nameof(TestModel.InitiallyExpanded3) && x.LayoutFlags == (LayoutFlags.NotFoldable | LayoutFlags.ExpandedInitially));
 
-        Assert.Contains(metaData, x => x.Name == nameof(TestModel.NoFrameNoBackground1) && x.LayoutFlags == (LayoutFlags.NoFrame | LayoutFlags.NoBackground));
-        Assert.Contains(metaData, x => x.Name == nameof(TestModel.NoFrameNoBackground2) && x.LayoutFlags == (LayoutFlags.NoFrame | LayoutFlags.NoBackground));
+        Assert.Contains(metaData, x => x.Name == nameof(TestModel.NoFrameNoBackground1) && x.LayoutFlags == (LayoutFlags.NoElements | LayoutFlags.NoBackground));
+        Assert.Contains(metaData, x => x.Name == nameof(TestModel.NoFrameNoBackground2) && x.LayoutFlags == (LayoutFlags.NoElements | LayoutFlags.NoBackground));
     }
 
     public sealed class TestModel
@@ -43,23 +43,23 @@ public class LayoutFlagsAttributeTest
         [LayoutFlags(LayoutFlags.Default)]
         public int Default2 { get; set; }
 
-        [LayoutFlags(LayoutFlags.Foldable)]
-        public int Foldable { get; set; }
+        [LayoutFlags(LayoutFlags.NotFoldable)]
+        public int NotFoldable { get; set; }
 
-        [LayoutFlags(LayoutFlags.ExpandedInitially)]
+        [LayoutFlags(LayoutFlags.NotFoldable)]
         public int InitiallyExpanded1 { get; set; }
 
-        [LayoutFlags(LayoutFlags.Foldable | LayoutFlags.ExpandedInitially)]
+        [LayoutFlags(LayoutFlags.NotFoldable | LayoutFlags.ExpandedInitially)]
         public int InitiallyExpanded2 { get; set; }
 
-        [LayoutFlags(LayoutFlags.Foldable)]
+        [LayoutFlags(LayoutFlags.NotFoldable)]
         [LayoutFlags(LayoutFlags.ExpandedInitially)]
         public int InitiallyExpanded3 { get; set; }
 
-        [LayoutFlags(LayoutFlags.NoFrame | LayoutFlags.NoBackground)]
+        [LayoutFlags(LayoutFlags.NoElements | LayoutFlags.NoBackground)]
         public int NoFrameNoBackground1 { get; set; }
 
-        [LayoutFlags(LayoutFlags.NoFrame)]
+        [LayoutFlags(LayoutFlags.NoElements)]
         [LayoutFlags(LayoutFlags.NoBackground)]
         public int NoFrameNoBackground2 { get; set; }
     }
