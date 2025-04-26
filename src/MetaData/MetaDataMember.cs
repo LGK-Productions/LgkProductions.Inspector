@@ -36,7 +36,7 @@ public sealed partial class MetaDataMember(MemberInfo memberInfo, Type typeOfVal
     /// <summary>
     /// See <see cref="DisplayNameAttribute"/> and <see cref="DisplayAttribute.Name"/>
     /// </summary>
-    public string DisplayName { get; set; } = memberInfo.Name;
+    public string DisplayName { get; set; } = MemberNameProcessor.ProcessMemberName(memberInfo.Name);
 
     /// <summary>
     /// See <see cref="DescriptionAttribute"/> and <see cref="DisplayAttribute.Description"/>
